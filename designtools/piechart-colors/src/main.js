@@ -43,7 +43,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     const colourPickerInput = document.createElement('input')
     colourPickerInput.value = colourValue
     colourPickerInput.addEventListener('change', () => {
-        updatepiechart()
+        updatePiechart()
     })
 
     new JSColor(colourPickerInput)
@@ -52,7 +52,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     deleteButton.innerText = '-'
     deleteButton.addEventListener('click', () => {
         colourPickerDiv.remove()
-        updatepiechart()
+        updatePiechart()
     })
 
     const moveUpButton = document.createElement('button')
@@ -80,7 +80,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
         if (index > 0) {
             colourPickerDivs[index - 1].before(colourPickerDiv)
         }
-        updatepiechart()
+        updatePiechart()
     })
 
     const moveDownButton = document.createElement('button')
@@ -108,7 +108,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
         if (index < colourPickerDivs.length - 1) {
             colourPickerDivs[index + 1].after(colourPickerDiv)
         }
-        updatepiechart()
+        updatePiechart()
     })
 
     colourPickerDiv.appendChild(colourPickerInput)
@@ -118,7 +118,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     
     prepend ? colourPickerList.prepend(colourPickerDiv) : colourPickerList.appendChild(colourPickerDiv)
 
-    updatepiechart()
+    updatePiechart()
 }
 
 const getColours = () => {
@@ -126,7 +126,7 @@ const getColours = () => {
     return Array.from(colourPickerInputs).map(input => input.value)
 }
 
-const updatepiechart = () => {
+const updatePiechart = () => {
     const colours = getColours()
     const piechartColours = colours.concat(Array.from({length: slices - colours.length}, () => 'gray'))
     piechart.data.datasets[0].backgroundColor = piechartColours
