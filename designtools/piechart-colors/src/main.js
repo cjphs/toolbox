@@ -38,7 +38,7 @@ document.addEventListener('keyup', (e) => {
     }
 })
 
-const appendColour = (colourValue='#d10a53') => {
+const appendColour = (colourValue='#d10a53',prepend=false) => {
     const colourPickerDiv = document.createElement('div')
     colourPickerDiv.classList.add('colourPickerDiv')
 
@@ -73,6 +73,8 @@ const appendColour = (colourValue='#d10a53') => {
                 }
                 index--
             }
+            if (index < 0)
+                appendColour(colourPickerInput.value,prepend=true)
             return
         }
         const colourPickerDivs = document.querySelectorAll('.colourPickerDiv')
@@ -99,6 +101,8 @@ const appendColour = (colourValue='#d10a53') => {
                 }
                 index++
             }
+            if (index > colourPickerDivs.length - 1)
+                appendColour(colourPickerInput.value)
             return
         }
         const colourPickerDivs = document.querySelectorAll('.colourPickerDiv')
@@ -114,7 +118,7 @@ const appendColour = (colourValue='#d10a53') => {
     colourPickerDiv.appendChild(moveDownButton)
     colourPickerDiv.appendChild(deleteButton)
     
-    colourPickerList.appendChild(colourPickerDiv)
+    prepend ? colourPickerList.prepend(colourPickerDiv) : colourPickerList.appendChild(colourPickerDiv)
 
     updateChart()
 }
