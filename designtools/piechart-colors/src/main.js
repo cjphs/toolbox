@@ -9,10 +9,9 @@ sliceSizes.sort((a, b) => a - b).reverse()
 
 const defaultColours = [
     '#47bbc1', '#fcc100', '#f44456', '#354052', '#4572A7',
-'#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D',
-'#92A8CD', '#A47D7C', '#B5CA92'//, 'grey' from here on...
+    '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D',
+    '#92A8CD', '#A47D7C', '#B5CA92'//, 'grey' from here on...
 ]
-
 
 const chart = new Chart(ctx, {
     type: 'pie',
@@ -63,11 +62,16 @@ const appendColour = (colourValue='#d10a53') => {
     moveUpButton.addEventListener('click', () => {
         if (shiftHeld) {
             const colourPickerDivs = document.querySelectorAll('.colourPickerDiv')
-            const index = Array.from(colourPickerDivs).indexOf(colourPickerDiv)
-            if (index > 0) {
-                const nextColourPickerInput = colourPickerDivs[index - 1].querySelector('input')
-                nextColourPickerInput.value = colourPickerInput.value
-                nextColourPickerInput.dispatchEvent(new Event('change'))
+            let index = Array.from(colourPickerDivs).indexOf(colourPickerDiv)
+            let nextColourPickerInput = colourPickerInput
+            while (nextColourPickerInput.value === colourPickerInput.value && index >= 0 ) {
+                nextColourPickerInput = colourPickerDivs[index].querySelector('input')
+                if (nextColourPickerInput.value !== colourPickerInput.value) {
+                    nextColourPickerInput.value = colourPickerInput.value
+                    nextColourPickerInput.dispatchEvent(new Event('change'))
+                    break
+                }
+                index--
             }
             return
         }
@@ -84,11 +88,16 @@ const appendColour = (colourValue='#d10a53') => {
     moveDownButton.addEventListener('click', () => {
         if (shiftHeld) {
             const colourPickerDivs = document.querySelectorAll('.colourPickerDiv')
-            const index = Array.from(colourPickerDivs).indexOf(colourPickerDiv)
-            if (index < colourPickerDivs.length - 1) {
-                const nextColourPickerInput = colourPickerDivs[index + 1].querySelector('input')
-                nextColourPickerInput.value = colourPickerInput.value
-                nextColourPickerInput.dispatchEvent(new Event('change'))
+            let index = Array.from(colourPickerDivs).indexOf(colourPickerDiv)
+            let nextColourPickerInput = colourPickerInput
+            while (nextColourPickerInput.value === colourPickerInput.value && index <= colourPickerDivs.length - 1) {
+                nextColourPickerInput = colourPickerDivs[index].querySelector('input')
+                if (nextColourPickerInput.value !== colourPickerInput.value) {
+                    nextColourPickerInput.value = colourPickerInput.value
+                    nextColourPickerInput.dispatchEvent(new Event('change'))
+                    break
+                }
+                index++
             }
             return
         }
