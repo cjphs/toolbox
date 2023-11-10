@@ -13,7 +13,7 @@ const defaultColours = [
     '#92A8CD', '#A47D7C', '#B5CA92'//, 'grey' from here on...
 ]
 
-const chart = new Chart(ctx, {
+const piechart = new Chart(ctx, {
     type: 'pie',
     data: {
     datasets: [{
@@ -21,8 +21,6 @@ const chart = new Chart(ctx, {
         borderWidth: 1,
         backgroundColor: []
     }]
-    },
-    options: {
     }
 });
 
@@ -45,7 +43,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     const colourPickerInput = document.createElement('input')
     colourPickerInput.value = colourValue
     colourPickerInput.addEventListener('change', () => {
-        updateChart()
+        updatepiechart()
     })
 
     new JSColor(colourPickerInput)
@@ -54,7 +52,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     deleteButton.innerText = '-'
     deleteButton.addEventListener('click', () => {
         colourPickerDiv.remove()
-        updateChart()
+        updatepiechart()
     })
 
     const moveUpButton = document.createElement('button')
@@ -82,7 +80,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
         if (index > 0) {
             colourPickerDivs[index - 1].before(colourPickerDiv)
         }
-        updateChart()
+        updatepiechart()
     })
 
     const moveDownButton = document.createElement('button')
@@ -110,7 +108,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
         if (index < colourPickerDivs.length - 1) {
             colourPickerDivs[index + 1].after(colourPickerDiv)
         }
-        updateChart()
+        updatepiechart()
     })
 
     colourPickerDiv.appendChild(colourPickerInput)
@@ -120,7 +118,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     
     prepend ? colourPickerList.prepend(colourPickerDiv) : colourPickerList.appendChild(colourPickerDiv)
 
-    updateChart()
+    updatepiechart()
 }
 
 const getColours = () => {
@@ -128,12 +126,11 @@ const getColours = () => {
     return Array.from(colourPickerInputs).map(input => input.value)
 }
 
-const updateChart = () => {
+const updatepiechart = () => {
     const colours = getColours()
-    console.log(colours)
-    const chartColours = colours.concat(Array.from({length: slices - colours.length}, () => 'gray'))
-    chart.data.datasets[0].backgroundColor = chartColours
-    chart.update()
+    const piechartColours = colours.concat(Array.from({length: slices - colours.length}, () => 'gray'))
+    piechart.data.datasets[0].backgroundColor = piechartColours
+    piechart.update()
 
     localStorage.setItem('colours', colours)
 
