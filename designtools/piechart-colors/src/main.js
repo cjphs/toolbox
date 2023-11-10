@@ -126,12 +126,29 @@ const getColours = () => {
 
 const updateChart = () => {
     const colours = getColours()
+    console.log(colours)
     const chartColours = colours.concat(Array.from({length: slices - colours.length}, () => 'gray'))
     chart.data.datasets[0].backgroundColor = chartColours
     chart.update()
 
+    localStorage.setItem('colours', colours)
+
     colourListOutput.textContent = colours.join(', ')
 }
 
-defaultColours.forEach(colour => appendColour(colour))
-updateChart()
+const loadDefaults = () => {
+    localStorage.setItem('colours', defaultColours)
+    location.reload()
+}
+
+let coloursStorage = localStorage.getItem('colours')
+if (!coloursStorage) {
+    defaultColours.forEach(colour => {
+        appendColour(colour)
+    })
+} else {
+    coloursStorage.split(',').forEach(colour => {
+        appendColour(colour)
+    })
+}
+
