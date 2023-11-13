@@ -1,11 +1,25 @@
 const ctx = document.getElementById('piechart');
 const colourPickerList = document.getElementById('colourPickerList')
 const colourListOutput = document.getElementById('colourListOutput')
+const colourHistory = document.getElementById('colourHistory')
 
+document.getElementById('loadDefaults').addEventListener('click', () => {
+    loadDefaults()
+})
+document.getElementById('addColour').addEventListener('click', () => {
+    appendColour()
+})
+fallbackColourPicker.addEventListener('change', () => {
+    updatePiechart()
+})
+
+// fake data generation
 const slices = 30;
 let n = 12;
-const sliceSizes = Array.from({length: slices}, () => Math.random()*(n*=.75));
+const sliceSizes = Array.from({length: slices}, (e,i) => (1/(i*3+1) + Math.random()*.025));
 sliceSizes.sort((a, b) => a - b).reverse()
+
+const colourHistoryMaxItems = 100
 
 const defaultColours = [
     '#47bbc1', '#fcc100', '#f44456', '#354052', '#4572A7',
@@ -36,6 +50,20 @@ document.addEventListener('keyup', (e) => {
     }
 })
 
+const colourHistoryAppend = (colourValue) => {
+    const colourHistoryItem = document.createElement('div')
+    colourHistoryItem.style.backgroundColor = colourValue
+    colourHistoryItem.style.display = 'inline-block'
+    colourHistoryItem.style.padding = '2px'
+    colourHistoryItem.style.marginRight = '2px'
+    colourHistoryItem.style.marginBottom = '2px'
+    colourHistoryItem.innerText = colourValue
+    colourHistory.appendChild(colourHistoryItem)
+
+    if (colourHistory.children.length > colourHistoryMaxItems)
+        colourHistory.removeChild(colourHistory.children[0])
+}
+
 const appendColour = (colourValue='#d10a53',prepend=false) => {
     const colourPickerDiv = document.createElement('div')
     colourPickerDiv.classList.add('colourPickerDiv')
@@ -43,6 +71,7 @@ const appendColour = (colourValue='#d10a53',prepend=false) => {
     const colourPickerInput = document.createElement('input')
     colourPickerInput.value = colourValue
     colourPickerInput.addEventListener('change', () => {
+        colourHistoryAppend(colourPickerInput.value)
         updatePiechart()
     })
 
@@ -128,13 +157,13 @@ const getColours = () => {
 
 const updatePiechart = () => {
     const colours = getColours()
-    const piechartColours = colours.concat(Array.from({length: slices - colours.length}, () => 'gray'))
+    const piechartColours = colours.concat(Array.from({length: slices - colours.length}, () => fallbackColourPicker.value))
     piechart.data.datasets[0].backgroundColor = piechartColours
     piechart.update()
 
     localStorage.setItem('colours', colours)
 
-    colourListOutput.textContent = colours.join(', ')
+    colourListOutput.textContent = colours.map(colours => "'" + colours + "'").join(', ')
 }
 
 const loadDefaults = () => {

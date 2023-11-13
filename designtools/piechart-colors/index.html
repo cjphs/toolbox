@@ -5,21 +5,27 @@
 <html>
     <body>
         <div id="wrapper">
-            <div class="container" id="colourPickerList"  style="width: 50%">
+            <div class="container"  style="width: 50%">
                 <div>
-                    <button id="loadDefaults" style="float:right" onclick="loadDefaults()">Load Defaults</button>
-                    <button id="addColour" style="float:right" onclick="appendColour()">+</button>
+                    <button id="loadDefaults" style="float:right">Load Defaults</button>
+                    <button id="addColour" style="float:right">+</button>
+                    Fallback colour:<br>
+                    <input class="jscolor" id="fallbackColourPicker" value="ab2567">
                 </div>
-
+                Colours:<br>
                 <div id="colourPickerList"></div>
             </div>
 
             <div class="container" style="height:400px;">
-                    <canvas id="piechart"></canvas>
+                <canvas id="piechart"></canvas>
             </div>
         </div>
-
+        
         <div id="colourListOutput"></div>
+        <div>
+            History:<br>
+            <div id="colourHistory"></div>
+        </div>
     </body>
 </html>
 
