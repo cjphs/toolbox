@@ -13,6 +13,8 @@ fallbackColourPicker.addEventListener('change', () => {
     updatePiechart()
 })
 
+let profileName
+
 // fake data generation
 const slices = 30;
 let n = 12;
@@ -52,11 +54,13 @@ document.addEventListener('keyup', (e) => {
 
 const colourHistoryAppend = (colourValue) => {
     const colourHistoryItem = document.createElement('div')
+    colourHistoryItem.classList.add('colourHistoryItem')
     colourHistoryItem.style.backgroundColor = colourValue
     colourHistoryItem.style.display = 'inline-block'
     colourHistoryItem.style.padding = '2px'
     colourHistoryItem.style.marginRight = '2px'
     colourHistoryItem.style.marginBottom = '2px'
+    colourHistoryItem.draggable = true
     colourHistoryItem.innerText = colourValue
     colourHistory.appendChild(colourHistoryItem)
 
@@ -181,4 +185,3 @@ if (!coloursStorage) {
         appendColour(colour)
     })
 }
-
